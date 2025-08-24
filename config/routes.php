@@ -55,7 +55,11 @@ return function (RouteBuilder $routes): void {
          * its action called 'display', and we pass a param to select the view file
          * to use (in this case, templates/Pages/home.php)...
          */
-        $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+
+        // makes the root page point to the index function of the controller
+        //todo: would be nice to make the /listings the actual root but might not be easy
+        $builder->connect('/', ['controller' => 'Listings', 'action' => 'index', 'Listings']);
+
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
