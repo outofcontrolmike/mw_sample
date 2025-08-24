@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Controller;
+use Cake\Http\Exception\NotFoundException;
 
 /**
  * Listings Controller
@@ -47,6 +48,7 @@ class ListingsController extends AppController
      */
     public function add()
     {
+        // list of states... need to make this more of a component since our edit page needs this as well
         $states = [
             'AL' => 'Alabama',
             'AK' => 'Alaska',
@@ -104,6 +106,25 @@ class ListingsController extends AppController
         $listing = $this->Listings->newEmptyEntity();
         if ($this->request->is('post')) {
             $listing = $this->Listings->patchEntity($listing, $this->request->getData());
+
+            // image
+             $data = $this->request->getData();
+             $imageFile = $data['image_file'];
+             
+            // Handle image upload
+            if ($imageFile && $imageFile->getError() === UPLOAD_ERR_OK) {
+            $filename = time() . '-' . $imageFile->getClientFilename();
+            $uploadPath = WWW_ROOT . 'img' . DS . 'listings' . DS;
+
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0775, true);
+            }
+
+            $imageFile->moveTo($uploadPath . $filename);
+            $data['image'] = 'listings/' . $filename;
+        }
+            $listing = $this->Listings->patchEntity($listing, $data);
+
             if ($this->Listings->save($listing)) {
                 $this->Flash->success(__('The listing has been saved.'));
 
@@ -155,4 +176,21 @@ class ListingsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * @param string|null $id = listing id
+     * @return \Cake\Http\Response|null Redirects to index.
+     * @throws \Cake\Datasource\Exception\NotFoundException When record not found
+     **/
+    public function image($id = null)
+{
+    $record = $this->Listings->get($id);
+    if (!$record || empty($record->image)) {
+        throw new NotFoundException(__('Image not found.'));
+    }
+
+    $this->response = $this->response->withType('image/jpeg'); // or image/png, etc.
+    $this->response = $this->response->withStringBody($record->image);
+    return $this->response;
+}
 }

@@ -44,6 +44,10 @@ body {
 }
 
 .top-nav-links,
+
+#nav_add_btn {
+    color: white !important;
+}
 .side-nav,
 h1, h2, h3, h4, h5, h6 {
     font-family: "Raleway", sans-serif;
@@ -270,6 +274,9 @@ input[type='color'] {
     height: 100vh;
     justify-content: center;
 }
+
+/* Custom */
+
 
 @media screen and (max-width: 640px) {
     /* Fix milligram not having a responsive column system */

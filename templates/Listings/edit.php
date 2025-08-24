@@ -11,7 +11,7 @@
             <?= $this->Form->postLink(
                 __('Delete'),
                 ['action' => 'delete', $listing->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $listing->id), 'class' => 'side-nav-item']
+                ['confirm' => __('Are you sure you want to delete property # {0}?', $listing->id), 'class' => 'side-nav-item']
             ) ?>
             <?= $this->Html->link(__('View Listings'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
         </div>

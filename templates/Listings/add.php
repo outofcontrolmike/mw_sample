@@ -14,7 +14,7 @@
     </aside>
     <div class="column column-80">
         <div class="listings form content">
-            <?= $this->Form->create($listing) ?>
+            <?= $this->Form->create($listing, ['type' => 'file']) ?>
             <fieldset>
                 <h1><?= __('Add Property') ?></h1>
                 <?php
@@ -33,7 +33,7 @@
                 ]);
                 echo $this->Form->control('zip_code');
                 echo $this->Form->control('regards');
-                echo $this->Form->control('image', ['type' => 'file']);
+                echo $this->Form->control('image_file', ['type' => 'file', 'label' => 'Upload Image']);
 
                 ?>
             </fieldset>

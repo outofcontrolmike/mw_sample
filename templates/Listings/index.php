@@ -5,14 +5,16 @@
  * @var iterable<\App\Model\Entity\Listing> $listings
  */
 ?>
+
+
 <div class="listings index content">
-    <?= $this->Html->link(__('Add Property'), ['action' => 'add'], ['class' => 'button float-right']) ?>
     <h3><?= __('Manage Listings') ?></h3>
     <div class="table-responsive">
         <table>
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
+                    <th>Thumbnail</th>
                     <th><?= $this->Paginator->sort('mls_number') ?></th>
                     <th><?= $this->Paginator->sort('beds') ?></th>
                     <th><?= $this->Paginator->sort('baths') ?></th>
@@ -28,10 +30,18 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($listings as $listing): ?>
+                <?php foreach ($listings as $listing):
+                ?>
                     <tr>
                         <td>
-                            <?= $this->Html->link($listing->id, ['action' => 'view', $listing->slug]) ?>
+                            <?= $this->Html->link($listing->id, ['action' => 'view', $listing->id]) ?>
+                        </td>
+                        <td>
+                            <?php if ($listing->image): ?>
+                                <img src="<?= $this->Url->image($listing->image) ?>" alt="Listing Image" style="max-width:150px;" />
+                            <?php else: ?>
+                                No Image
+                            <?php endif; ?>
                         </td>
                         <td><?= h($listing->mls_number) ?></td>
                         <td><?= $this->Number->format($listing->beds) ?></td>
@@ -52,7 +62,7 @@
                                 ['action' => 'delete', $listing->id],
                                 [
                                     'method' => 'delete',
-                                    'confirm' => __('Are you sure you want to delete # {0}?', $listing->id),
+                                    'confirm' => __('Are you sure you want to delete property # {0}?', $listing->id),
                                 ]
                             ) ?>
                         </td>

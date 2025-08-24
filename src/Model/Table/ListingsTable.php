@@ -114,13 +114,26 @@ class ListingsTable extends Table
             ->scalar('regards')
             ->allowEmptyString('regards');
 
+        // todo: remove this 
         $validator
             ->boolean('listed')
             ->allowEmptyString('listed');
 
         $validator
             ->requirePresence('image', 'create')
-            ->notEmptyFile('image');
+            ->notEmptyFile('image')
+            
+            // Validate MIME type
+            ->add('image', 'validMime', [
+            'rule' => ['mimeType', ['image/jpeg', 'image/png', 'image/gif']],
+            'message' => 'Please upload a valid image (JPEG, PNG, or GIF).',
+            ])
+
+             // Validate file size (in bytes) — e.g., max 2MB
+        ->add('image', 'fileSize', [
+            'rule' => ['fileSize', '<=', '2MB'],
+            'message' => 'Image must be 2MB or smaller.',
+        ]);
 
         return $validator;
     }
