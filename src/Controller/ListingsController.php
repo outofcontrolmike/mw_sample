@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Controller;
+
 use Cake\Http\Exception\NotFoundException;
 
 /**
@@ -107,22 +108,22 @@ class ListingsController extends AppController
         if ($this->request->is('post')) {
             $listing = $this->Listings->patchEntity($listing, $this->request->getData());
 
-            // image
-             $data = $this->request->getData();
-             $imageFile = $data['image_file'];
-             
+            // grab our image file
+            $data = $this->request->getData();
+            $imageFile = $data['image_file'];
+
             // Handle image upload
             if ($imageFile && $imageFile->getError() === UPLOAD_ERR_OK) {
-            $filename = time() . '-' . $imageFile->getClientFilename();
-            $uploadPath = WWW_ROOT . 'img' . DS . 'listings' . DS;
+                $filename = time() . '-' . $imageFile->getClientFilename();
+                $uploadPath = WWW_ROOT . 'img' . DS . 'listings' . DS;
 
-            if (!file_exists($uploadPath)) {
-                mkdir($uploadPath, 0775, true);
+                if (!file_exists($uploadPath)) {
+                    mkdir($uploadPath, 0775, true);
+                }
+
+                $imageFile->moveTo($uploadPath . $filename);
+                $data['image'] = 'listings/' . $filename;
             }
-
-            $imageFile->moveTo($uploadPath . $filename);
-            $data['image'] = 'listings/' . $filename;
-        }
             $listing = $this->Listings->patchEntity($listing, $data);
 
             if ($this->Listings->save($listing)) {
@@ -147,6 +148,36 @@ class ListingsController extends AppController
         $listing = $this->Listings->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $listing = $this->Listings->patchEntity($listing, $this->request->getData());
+
+
+            $data = $this->request->getData();
+            $imageFile = $data['image_file'];
+            // Check if a new image was uploaded
+            if ($imageFile && $imageFile->getError() === UPLOAD_ERR_OK) {
+                // Optionally delete old image
+                if (!empty($listing->image)) {
+                    $oldPath = WWW_ROOT . 'img' . DS . $listing->image;
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+                }
+
+                // Save new image
+                $filename = time() . '-' . $imageFile->getClientFilename();
+                $uploadPath = WWW_ROOT . 'img' . DS . 'listings' . DS;
+
+                if (!file_exists($uploadPath)) {
+                    mkdir($uploadPath, 0775, true);
+                }
+
+                $imageFile->moveTo($uploadPath . $filename);
+                $data['image'] = 'listings/' . $filename;
+            } else {
+                // No new image uploaded — keep the existing one
+                $data['image'] = $listing->image;
+            }
+
+            $listing = $this->Listings->patchEntity($listing, $data);
             if ($this->Listings->save($listing)) {
                 $this->Flash->success(__('The listing has been saved.'));
 
@@ -183,14 +214,14 @@ class ListingsController extends AppController
      * @throws \Cake\Datasource\Exception\NotFoundException When record not found
      **/
     public function image($id = null)
-{
-    $record = $this->Listings->get($id);
-    if (!$record || empty($record->image)) {
-        throw new NotFoundException(__('Image not found.'));
-    }
+    {
+        $record = $this->Listings->get($id);
+        if (!$record || empty($record->image)) {
+            throw new NotFoundException(__('Image not found.'));
+        }
 
-    $this->response = $this->response->withType('image/jpeg'); // or image/png, etc.
-    $this->response = $this->response->withStringBody($record->image);
-    return $this->response;
-}
+        $this->response = $this->response->withType('image/jpeg'); // or image/png, etc.
+        $this->response = $this->response->withStringBody($record->image);
+        return $this->response;
+    }
 }

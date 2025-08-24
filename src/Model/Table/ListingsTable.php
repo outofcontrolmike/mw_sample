@@ -113,7 +113,7 @@ class ListingsTable extends Table
 
         $validator
             ->requirePresence('image', 'create')
-            ->notEmptyFile('image')
+            ->notEmptyFile('image');
 
             // todo: get the validation working at some point... throws errors saying there is a missing file when checking Mimetype.. tried image & 'image_file'
         //     // Validate MIME type
@@ -122,12 +122,11 @@ class ListingsTable extends Table
         //     'message' => 'Please upload a valid image (JPEG, PNG, or GIF).',
         //     ])
 
-        //      // Validate file size (in bytes) — e.g., max 2MB
+             // Validate file size (in bytes) — e.g., max 2MB
         // ->add('image_file', 'fileSize', [
         //     'rule' => ['fileSize', '<=', '2MB'],
         //     'message' => 'Image must be 2MB or smaller.',
         // ])
-        ;
 
         return $validator;
     }
