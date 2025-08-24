@@ -18,39 +18,12 @@ class ListingsController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
+public function beforeRender(\Cake\Event\EventInterface $event): void
+{
+    parent::beforeRender($event);
 
-
-
-    public function index()
-    {
-        $query = $this->Listings->find();
-        $listings = $this->paginate($query);
-
-        $this->set(compact('listings'));
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Listing id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $listing = $this->Listings->get($id, contain: []);
-        $this->set(compact('listing'));
-    }
-
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        // list of states... need to make this more of a component since our edit page needs this as well
-        $states = [
+    // Set a collection of states in a variable to be accessible
+     $states = [
             'AL' => 'Alabama',
             'AK' => 'Alaska',
             'AZ' => 'Arizona',
@@ -102,8 +75,39 @@ class ListingsController extends AppController
             'WI' => 'Wisconsin',
             'WY' => 'Wyoming'
         ];
-        $this->set(compact('states'));
+    // Make variable available to all views
+    $this->set('states', $states); 
+}
 
+
+    public function index()
+    {
+        $query = $this->Listings->find();
+        $listings = $this->paginate($query);
+
+        $this->set(compact('listings'));
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Listing id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        $listing = $this->Listings->get($id, contain: []);
+        $this->set(compact('listing'));
+    }
+
+    /**
+     * Add method
+     *
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     */
+    public function add()
+    {
         $listing = $this->Listings->newEmptyEntity();
         if ($this->request->is('post')) {
             $listing = $this->Listings->patchEntity($listing, $this->request->getData());
@@ -145,10 +149,12 @@ class ListingsController extends AppController
      */
     public function edit($id = null)
     {
+
+    
         $listing = $this->Listings->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $listing = $this->Listings->patchEntity($listing, $this->request->getData());
-
+            
 
             $data = $this->request->getData();
             $imageFile = $data['image_file'];
