@@ -42,8 +42,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <a target="_self" rel="noopener" href="/">Home</a>
         </div>
         <div class="top-nav-links">
-            <!-- Todo: we need to build a search page<a target="_self" rel="noopener" href="https://book.cakephp.org/5/">Search</a> -->
-              <?= $this->Html->link(__('Add Property'), ['action' => 'add'], ['class' => 'button float-right', 'id' => 'nav_add_btn']) ?>
+              <?= $this->Html->link(__('Add Listing'), ['action' => 'add'], ['class' => 'button float-right', 'id' => 'nav_add_btn']) ?>
         </div>
     </nav>
     <main class="main">

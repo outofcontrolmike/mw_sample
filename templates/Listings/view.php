@@ -11,13 +11,13 @@
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?= $this->Html->link(__('Edit Listing'), ['action' => 'edit', $listing->id], ['class' => 'side-nav-item']) ?>
             <?= $this->Form->postLink(__('Delete Listing'), ['action' => 'delete', $listing->id], ['confirm' => __('Are you sure you want to delete property # {0}?', $listing->id), 'class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('View Listings'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+            <?= $this->Html->link(__('Manage Listings'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('New Listing'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
     <div class="column column-80">
         <div class="listings view content">
-            <h3>MLS # <?=h($listing->mls_number) ?></h3>
+            <h3>Viewing Listing</h3>
             <?php if ($listing->image): ?>
                 <img src="<?= $this->Url->image($listing->image) ?>" alt="Listing Image" style="max-height:300px; align-self: center;" />
             <?php else: ?>

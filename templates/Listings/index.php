@@ -7,7 +7,7 @@
 ?>
 
 
-<div class="listings index content">
+<div class="listings index content" id="listingsContainer">
     <h3><?= __('Manage Listings') ?></h3>
     <div class="table-responsive">
         <table>
@@ -47,7 +47,7 @@
                         <td><?= $this->Number->format($listing->beds) ?></td>
                         <td><?= $this->Number->format($listing->baths) ?></td>
                         <td><?= $this->Number->format($listing->living_sqft) ?></td>
-                        <td><?= $this->Number->format($listing->price) ?></td>
+                        <td>$<?= $this->Number->format($listing->price) ?></td>
                         <td><?= h($listing->address) ?></td>
                         <td><?= h($listing->city) ?></td>
                         <td><?= h($listing->state) ?></td>
