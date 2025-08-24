@@ -17,9 +17,9 @@
     </aside>
     <div class="column column-80">
         <div class="listings view content">
-            <h3><?= h($listing->mls_number) ?></h3>
+            <h3>MLS # <?=h($listing->mls_number) ?></h3>
             <?php if ($listing->image): ?>
-                <img src="<?= $this->Url->image($listing->image) ?>" alt="Listing Image" style="max-width:150px;" />
+                <img src="<?= $this->Url->image($listing->image) ?>" alt="Listing Image" style="max-height:300px; align-self: center;" />
             <?php else: ?>
                 No Image
             <?php endif; ?>
@@ -27,10 +27,6 @@
                 <tr>
                     <th><?= __('ID') ?></th>
                     <td><?= h($listing->id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Slug') ?></th>
-                    <td><?= h($listing->slug) ?></td>
                 </tr>
 
                 <tr>

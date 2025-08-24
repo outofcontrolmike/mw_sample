@@ -20,7 +20,6 @@ class ListingsFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'slug' => 'Lorem ipsum dolor sit amet',
                 'mls_number' => 1,
                 'beds' => 1,
                 'baths' => 1.5,

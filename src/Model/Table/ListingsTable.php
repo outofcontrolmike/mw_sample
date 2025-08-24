@@ -40,7 +40,6 @@ class ListingsTable extends Table
         parent::initialize($config);
 
         $this->setTable('listings');
-        $this->setDisplayField('slug');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
@@ -54,13 +53,6 @@ class ListingsTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
-        $validator
-            ->scalar('slug')
-            ->maxLength('slug', 191)
-            ->requirePresence('slug', 'create')
-            ->notEmptyString('slug')
-            ->add('slug', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
-
         $validator
             ->integer('mls_number')
             ->requirePresence('mls_number', 'create')
@@ -147,10 +139,10 @@ class ListingsTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules): RulesChecker
-    {
-        $rules->add($rules->isUnique(['slug']), ['errorField' => 'slug']);
+    // public function buildRules(RulesChecker $rules): RulesChecker
+    // {
+    //     $rules->add($rules->isUnique(['slug']), ['errorField' => 'slug']);
 
-        return $rules;
-    }
+    //     return $rules;
+    // }
 }

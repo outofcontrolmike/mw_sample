@@ -22,7 +22,6 @@
             <fieldset>
                 <legend><?= __('Edit Listing') ?></legend>
                 <?php
-                    echo $this->Form->control('slug');
                     echo $this->Form->control('mls_number');
                     echo $this->Form->control('beds');
                     echo $this->Form->control('baths');

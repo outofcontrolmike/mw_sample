@@ -9,7 +9,6 @@ use Cake\ORM\Entity;
  * Listing Entity
  *
  * @property int $id
- * @property string $slug
  * @property int $mls_number
  * @property int $beds
  * @property string $baths
@@ -37,7 +36,6 @@ class Listing extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
-        'slug' => true,
         'mls_number' => true,
         'beds' => true,
         'baths' => true,
